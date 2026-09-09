@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+    <title>X Reply Cleaner</title>
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+  <div class="app">
+    <header>
+      <div class="logo">🧹</div>
+      <div>
+        <h1>X Reply Cleaner</h1>
+        <p class="sub">仅删除你在 X / Twitter 上的回复</p>
+      </div>
+    </header>
+
+    <section class="status-card" id="statusCard">
+      <div class="status-row">
+        <span class="dot" id="statusDot"></span>
+        <span id="statusText">未启动</span>
+      </div>
+      <div class="big-counter">
+        <div class="counter-num" id="deletedCount">0</div>
+        <div class="counter-label">条已删除</div>
+      </div>
+      <div class="preview" id="preview"></div>
+      <div class="page-stats" id="pageStats"></div>
+      <div class="warning" id="warning"></div>
+      <div class="error" id="error"></div>
+    </section>
+
+    <section class="form">
+      <label>
+        <span>目标账号 (留空 = 自动识别)</span>
+        <input id="username" type="text" placeholder='点击"定位当前页面"后自动填入' autocomplete="off" />
+        <div id="usernameHint" class="hint">点击"📍 定位当前页面"开始</div>
+      </label>
+      <label>
+        <span>每条间隔</span>
+        <select id="rate">
+          <option value="1500">快速 (1.5s, 易触发限流)</option>
+          <option value="2000" selected>推荐 (2.0s)</option>
+          <option value="2500">保守 (2.5s)</option>
+          <option value="3500">非常保守 (3.5s)</option>
+        </select>
+      </label>
+
+      <div class="risk-note">
+        ⚠ 删除不可恢复 (X 弹窗 30 秒内可 Undo)
+      </div>
+
+      <div class="btn-row">
+        <button id="locateBtn" class="btn btn-secondary">📍 定位当前页面</button>
+        <button id="startBtn" class="btn btn-primary" disabled>▶ 开始删除</button>
+      </div>
+
+      <div class="btn-row control-row hidden" id="controlRow">
+        <button id="pauseBtn" class="btn btn-warn">⏸ 暂停</button>
+        <button id="resumeBtn" class="btn btn-warn hidden">▶ 继续</button>
+        <button id="stopBtn" class="btn btn-danger">⏹ 停止</button>
+      </div>
+    </section>
+
+    <footer>
+      <details>
+        <summary>使用说明与风险</summary>
+        <ul>
+          <li>仅删除 <b>回复</b> (含 "Replying to @xxx"),保留原创帖和转推。</li>
+          <li>操作在本地浏览器内通过 DOM 自动化执行,不会上传任何数据。</li>
+          <li>删除不可恢复 — 请确保已备份重要的内容。</li>
+          <li>X 可能在短时间内大量删除时弹出 <b>验证码</b> 或临时限流,遇到这种情况需手动完成验证后再次启动。</li>
+          <li>首次使用建议:小号先试一次,确认无误后再在大号上跑。</li>
+        </ul>
+      </details>
+      <div class="diag-row">
+        <button id="diagBtn" class="btn btn-mini">📋 复制诊断信息</button>
+        <span class="ver">v<span id="verLabel">1.8.0</span></span>
+      </div>
+    </footer>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
